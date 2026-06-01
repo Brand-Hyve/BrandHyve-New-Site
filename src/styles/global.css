@@ -24,7 +24,7 @@
   
   /* Text Colors */
   --ink: #ffffff;
-  --ink-muted: #888893;
+  --ink-muted: #e2e2e8;
   --ink-dark: #0a0a0c;
   
   /* Gradients */
@@ -734,6 +734,29 @@ p, span, li, a, h1, h2, h3, h4 {
   z-index: 2;
   perspective: 1000px;
   transition: transform 0.3s ease;
+}
+
+.integrations-more-badge {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--surface-1);
+  border: 1px solid var(--hairline);
+  padding: 10px 28px;
+  border-radius: var(--rounded-pill);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-yellow);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  z-index: 10;
+  transition: all 0.25s ease;
+}
+
+.integrations-more-badge:hover {
+  transform: translateX(-50%) translateY(-2px);
+  border-color: var(--accent-yellow);
+  box-shadow: 0 15px 30px rgba(255, 219, 21, 0.15);
 }
 
 .integration-bubble {

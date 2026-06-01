@@ -518,90 +518,89 @@ function initIntegrationsScroll() {
   const section = document.getElementById('integrations');
   if (!container || !section) return;
 
-  const bubbles = container.querySelectorAll('.integration-bubble');
-  let viewportHeight = window.innerHeight;
-  let isMobile = window.innerWidth < 768;
-
-  window.addEventListener('resize', () => {
-    viewportHeight = window.innerHeight;
-    isMobile = window.innerWidth < 768;
+  // Cache data attributes and elements to prevent DOM reads inside the scroll loop
+  const bubbles = Array.from(container.querySelectorAll('.integration-bubble')).map(bubble => {
+    return {
+      element: bubble,
+      vx: parseFloat(bubble.getAttribute('data-vx') || 0),
+      vy: parseFloat(bubble.getAttribute('data-vy') || 0)
+    };
   });
 
-  function updatePositions() {
-    if (isMobile) {
-      bubbles.forEach(bubble => {
-        bubble.style.transform = '';
-        bubble.style.filter = '';
-        bubble.style.opacity = '';
-      });
-      return;
-    }
+  let viewportHeight = window.innerHeight;
+  let isMobile = window.innerWidth < 768;
+  let sectionTop = 0;
+  let sectionHeight = 0;
 
+  // Cache section dimensions and position relative to page scroll
+  function measureSection() {
+    viewportHeight = window.innerHeight;
+    isMobile = window.innerWidth < 768;
     const rect = section.getBoundingClientRect();
+    sectionTop = rect.top + window.scrollY;
+    sectionHeight = rect.height;
+  }
 
-    // Skip calculations if section is completely out of view
-    if (rect.top > viewportHeight || rect.bottom < 0) {
-      return;
-    }
+  measureSection();
+  window.addEventListener('resize', measureSection);
 
-    // Find section and viewport vertical center positions
-    const sectionCenter = rect.top + rect.height / 2;
-    const viewportCenter = viewportHeight / 2;
+  function updatePositions() {
+    const scrollY = window.scrollY;
+    const sectionCenter = sectionTop + sectionHeight / 2;
+    const viewportCenter = scrollY + viewportHeight / 2;
     const distanceFromCenter = sectionCenter - viewportCenter;
 
-    // Normalize distance relative to viewport range
     const maxDistance = viewportHeight * 0.75;
     const normalizedDistance = Math.min(Math.max(distanceFromCenter / maxDistance, -1), 1);
     const progressAbs = Math.abs(normalizedDistance);
 
-    bubbles.forEach(bubble => {
-      // Fetch movement velocity vectors from DOM attributes
-      const vx = parseFloat(bubble.dataset.vx || 0);
-      const vy = parseFloat(bubble.dataset.vy || 0);
+    bubbles.forEach(b => {
+      // Damping scale factors for mobile screens to prevent overflow
+      const scaleX = isMobile ? 0.35 : 1.0;
+      const scaleY = isMobile ? 0.5 : 1.0;
 
-      // Scroll progress mapping: exponential curve for a bouncy eject feel
       const displacement = progressAbs * progressAbs * 130; 
+      const tx = b.vx * displacement * scaleX;
+      const ty = (b.vy * displacement + (normalizedDistance * 40)) * scaleY;
 
-      // Apply horizontal damping on mobile to avoid page overflow
-      const scaleFactorX = isMobile ? 0.35 : 1.0;
-      const tx = vx * displacement * scaleFactorX;
-      
-      // Vertical movement slides slightly with scroll direction
-      const ty = vy * displacement + (normalizedDistance * 40);
-
-      // Lens blur and opacity fade
-      let blurVal = 0;
-      if (progressAbs > 0.1) {
-        blurVal = (progressAbs - 0.1) * 8.2;
-      }
-      
       let opacityVal = 1;
       if (progressAbs > 0.15) {
         opacityVal = Math.max(0, 1 - (progressAbs - 0.15) / 0.85);
       }
 
-      // Bubble scaling factor
       const scaleVal = Math.max(0.68, 1 - progressAbs * 0.32);
 
-      // Apply hardware-accelerated 3D transforms
-      bubble.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${scaleVal})`;
-      if (blurVal === 0) {
-        bubble.style.filter = 'none';
-      } else {
-        bubble.style.filter = `blur(${blurVal}px)`;
-      }
-      bubble.style.opacity = opacityVal;
+      // Performant GPU-accelerated transforms (omitting heavy visual filter blurs)
+      b.element.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${scaleVal})`;
+      b.element.style.opacity = opacityVal;
     });
   }
 
-  // Passive listener for high-performance scroll handling
-  window.addEventListener('scroll', () => {
-    if (isMobile) return;
-    window.requestAnimationFrame(updatePositions);
-  }, { passive: true });
+  // Active scroll event tracking throttled with requestAnimationFrame
+  let scrollActive = false;
+  function onScroll() {
+    if (!scrollActive) {
+      scrollActive = true;
+      window.requestAnimationFrame(() => {
+        updatePositions();
+        scrollActive = false;
+      });
+    }
+  }
 
-  // Run initial state calculation
-  updatePositions();
+  // Disable scroll handler entirely when container is out of view
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        window.addEventListener('scroll', onScroll, { passive: true });
+        updatePositions();
+      } else {
+        window.removeEventListener('scroll', onScroll);
+      }
+    });
+  }, { threshold: 0.01 });
+
+  observer.observe(section);
 }
 
 // 10. Email Obfuscation Decoder

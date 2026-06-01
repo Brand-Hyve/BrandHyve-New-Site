@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="BrandHyve: Tampa Bay Review Automation Company" description="Learn about BrandHyve's mission to help local brick-and-mortar businesses automate their Google reputation and build long-term local trust." schemaType="faq" ogImage="/og-about.jpg">
+<Layout title="Brand Hyve: Tampa Bay Review Automation Company" description="Learn about Brand Hyve's mission to help local brick-and-mortar businesses automate their Google reputation and build long-term local trust." schemaType="faq" ogImage="/og-about.jpg">
   <!-- Global Decorative Background Glows -->
   <div class="glow-glow" style="top: 10%; left: 5%;"></div>
   <div class="glow-glow" style="top: 60%; right: 5%; width: 250px; height: 250px; background: #888888; animation-delay: -3s;"></div>
@@ -11,8 +11,8 @@ import Layout from '../layouts/Layout.astro';
   <section class="section-padding about-hero">
     <div class="section-header">
       <span class="caption">Our Mission</span>
-      <h1 class="display-xl">We Automate Trust For Local Businesses</h1>
-      <p class="body-lg">BrandHyve was founded to bridge the gap between complex search algorithms and local businesses. We make review collection effortless, letting owners focus on what they do best.</p>
+      <h1 class="display-xl">We Help Service Businesses Get the Reviews They Deserve</h1>
+      <p class="body-lg">Brand Hyve was built to remove the constant stress of chasing customers for reviews. We automate the follow-up process entirely so local service providers can focus on doing great work, while their online reputation grows on autopilot.</p>
     </div>
 
     <!-- Core Values Section -->
@@ -49,7 +49,7 @@ import Layout from '../layouts/Layout.astro';
       <div class="seo-text-col">
         <h2 class="display-md" style="margin-bottom: 20px; color: var(--ink);">Why Reviews Drive Local Search Rankings</h2>
         <p class="body-md" style="color: var(--ink-muted); margin-bottom: 15px; line-height: 1.6;">
-          Search engine algorithms prioritize trust, recency, and active user engagement. By consistently collecting fresh, positive customer feedback, your business signals to search bots that it is active and relevant in your local service area. BrandHyve automates this pipeline, sending personalized requests that remove friction and significantly boost review conversion rates.
+          Search engine algorithms prioritize trust, recency, and active user engagement. By consistently collecting fresh, positive customer feedback, your business signals to search bots that it is active and relevant in your local service area. Brand Hyve automates this pipeline, sending personalized requests that remove friction and significantly boost review conversion rates.
         </p>
         <p class="body-md" style="color: var(--ink-muted); line-height: 1.6;">
           Additionally, customer reviews contain natural keywords related to your services, products, and geographic location. When search engines index these reviews, they build a semantic map of your business entity, raising your profile visibility in map packs and organic search query results.
@@ -94,7 +94,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
         <div class="faq-answer">
           <p>
-            Google reviews establish organic digital trust, increase CTR click-through rates, and enhance local search indexing authority. A continuous flow of reviews tells search engine indexing bots that your business is active and reliable, increasing your rank in maps and local search query parameters.
+            Google reviews establish organic digital trust, increase click-through rates (CTR), and enhance local search indexing authority. A continuous flow of reviews tells search engine indexing bots that your business is active and reliable, increasing your rank in maps and local search query parameters.
           </p>
         </div>
       </div>
@@ -130,7 +130,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
         <div class="faq-answer">
           <p>
-            No. All plans operate on monthly subscription increments. You can upgrade, downgrade, or cancel subscription parameters at any point from your dashboard settings.
+            No. All plans operate on monthly subscription increments. You can upgrade, downgrade, or cancel your subscription at any point from your dashboard settings.
           </p>
         </div>
       </div>
@@ -144,7 +144,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="cta-left">
           <h2 class="display-md">Join Over 1,000+ Local Businesses</h2>
           <p class="body-lg" style="margin-top: 10px;">
-            Grow your reputation on autopilot with BrandHyve's trusted automation tools.
+            Grow your reputation on autopilot with Brand Hyve's trusted automation tools.
           </p>
         </div>
         <div class="cta-right">
@@ -276,7 +276,13 @@ import Layout from '../layouts/Layout.astro';
 
   /* CTA Banner Details */
   .cta-banner {
-    padding: 1px !important;
+    padding: 40px !important;
+  }
+
+  @media (max-width: 480px) {
+    .cta-banner {
+      padding: 30px 20px !important;
+    }
   }
 
   .cta-left {

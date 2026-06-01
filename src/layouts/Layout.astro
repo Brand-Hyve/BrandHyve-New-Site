@@ -10,8 +10,8 @@ interface Props {
 }
 
 const { 
-	title = "BrandHyve | Automated Google Reviews & Reputation Management", 
-	description = "Effortlessly collect 5-star Google reviews, manage customer feedback, and rank higher in local search with BrandHyve's automated review system.",
+	title = "Brand Hyve | Automated Google Reviews & Reputation Management", 
+	description = "Effortlessly collect 5-star Google reviews, manage customer feedback, and rank higher in local search with Brand Hyve's automated review system.",
 	schemaType = 'local',
 	ogImage = '/og-home.jpg'
 } = Astro.props;
@@ -34,14 +34,14 @@ const fbPixelId = import.meta.env.PUBLIC_FB_PIXEL_ID || 'PIXEL-ID-PLACEHOLDER';
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		<link rel="canonical" href={new URL(Astro.url.pathname, 'https://www.brandhyve.com').href} />
-		<meta name="author" content="BrandHyve" />
+		<meta name="author" content="Brand Hyve" />
 		
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={new URL(Astro.url.pathname, 'https://www.brandhyve.com').href} />
-		<meta property="og:site_name" content="BrandHyve" />
+		<meta property="og:site_name" content="Brand Hyve" />
 		<meta property="og:image" content={new URL(ogImage, 'https://www.brandhyve.com').href} />
 
 		<!-- Twitter -->
@@ -89,14 +89,12 @@ const fbPixelId = import.meta.env.PUBLIC_FB_PIXEL_ID || 'PIXEL-ID-PLACEHOLDER';
 			{
 				"@context": "https://schema.org",
 				"@type": "Organization",
-				"name": "BrandHyve",
+				"name": "Brand Hyve",
 				"url": "https://www.brandhyve.com/",
 				"logo": "https://www.brandhyve.com/logo.png",
 				"sameAs": [
 					"https://www.facebook.com/profile.php?id=61577943821635",
 					"https://www.instagram.com/brand_hyve/",
-					"https://x.com/brandhyve",
-					"https://www.youtube.com/@brandhyve",
 					"https://www.linkedin.com/company/brandhyve"
 				]
 			}
@@ -107,7 +105,7 @@ const fbPixelId = import.meta.env.PUBLIC_FB_PIXEL_ID || 'PIXEL-ID-PLACEHOLDER';
 			{
 				"@context": "https://schema.org",
 				"@type": "ProfessionalService",
-				"name": "BrandHyve",
+				"name": "Brand Hyve",
 				"image": "https://www.brandhyve.com/logo.png",
 				"url": "https://www.brandhyve.com/",
 				"telephone": "+1-813-308-0543",
@@ -144,7 +142,7 @@ const fbPixelId = import.meta.env.PUBLIC_FB_PIXEL_ID || 'PIXEL-ID-PLACEHOLDER';
 							"name": "Why are Google reviews important for my business?",
 							"acceptedAnswer": {
 								"@type": "Answer",
-								"text": "Google reviews establish organic digital trust, increase CTR click-through rates, and enhance local search indexing authority. A continuous flow of reviews tells search engine indexing bots that your business is active and reliable, increasing your rank in maps and local search query parameters."
+								"text": "Google reviews establish organic digital trust, increase click-through rates (CTR), and enhance local search indexing authority. A continuous flow of reviews tells search engine indexing bots that your business is active and reliable, increasing your rank in maps and local search query parameters."
 							}
 						}
 					]
@@ -157,8 +155,8 @@ const fbPixelId = import.meta.env.PUBLIC_FB_PIXEL_ID || 'PIXEL-ID-PLACEHOLDER';
 				{
 					"@context": "https://schema.org",
 					"@type": "WebPage",
-					"name": "Contact BrandHyve",
-					"description": "Get in touch with BrandHyve's customer support and reputation growth team.",
+					"name": "Contact Brand Hyve",
+					"description": "Get in touch with Brand Hyve's customer support and reputation growth team.",
 					"mainEntity": {
 						"@type": "ContactPage",
 						"contactPoint": {
@@ -197,7 +195,7 @@ const fbPixelId = import.meta.env.PUBLIC_FB_PIXEL_ID || 'PIXEL-ID-PLACEHOLDER';
 		<nav class="nav-container">
 			<div class="logo">
 				<a href="/" class="logo-link">
-					<img src="/logo.svg?v=1" alt="BrandHyve Logo" width="162" height="57" class="logo-img" />
+					<img src="/logo.svg?v=1" alt="Brand Hyve Logo" width="162" height="57" class="logo-img" />
 				</a>
 			</div>
 			
@@ -233,7 +231,7 @@ const fbPixelId = import.meta.env.PUBLIC_FB_PIXEL_ID || 'PIXEL-ID-PLACEHOLDER';
 				<div class="footer-brand">
 					<div class="logo footer-logo-wrap">
 						<a href="/" class="logo-link">
-							<img src="/logo.svg?v=1" alt="BrandHyve Logo" width="162" height="57" class="logo-img" />
+							<img src="/logo.svg?v=1" alt="Brand Hyve Logo" width="162" height="57" class="logo-img" />
 						</a>
 					</div>
 					<p class="body-sm footer-brand-p">
@@ -250,12 +248,6 @@ const fbPixelId = import.meta.env.PUBLIC_FB_PIXEL_ID || 'PIXEL-ID-PLACEHOLDER';
 						</a>
 						<a href="https://www.instagram.com/brand_hyve/" target="_blank" aria-label="Instagram">
 							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-						</a>
-						<a href="https://x.com/brandhyve" target="_blank" aria-label="X (Twitter)">
-							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg>
-						</a>
-						<a href="https://www.youtube.com/@brandhyve" target="_blank" aria-label="YouTube">
-							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></polygon></svg>
 						</a>
 						<a href="https://www.linkedin.com/company/brandhyve" target="_blank" aria-label="LinkedIn">
 							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
@@ -288,7 +280,7 @@ const fbPixelId = import.meta.env.PUBLIC_FB_PIXEL_ID || 'PIXEL-ID-PLACEHOLDER';
 				</div>
 			</div>
 			<div class="footer-bottom">
-				<p>&copy; Copyright 2026. BrandHyve. All Rights Reserved.</p>
+				<p>&copy; Copyright 2026. Brand Hyve. All Rights Reserved.</p>
 			</div>
 		</footer>
 	</body>
