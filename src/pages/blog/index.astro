@@ -1,0 +1,50 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+---
+
+<Layout
+  title="Local SEO & Google Reviews Blog | Brand Hyve"
+  description="Plain-spoken guides on Google Business Profile, local SEO, reviews, and websites for local service businesses. Written by the Brand Hyve team."
+>
+  <div class="glow-glow" style="top: 15%; left: 10%;"></div>
+
+  <section class="section-padding blog-index">
+    <div class="section-header">
+      <span class="caption">Blog</span>
+      <h1 class="display-xl">Local SEO, Reviews, and Websites. Explained Plainly.</h1>
+      <p class="body-lg">What we learn running Local SEO and websites for local businesses, written so you can use it today.</p>
+    </div>
+
+    {posts.length === 0 ? (
+      <p class="body-lg blog-empty">First posts are on the way.</p>
+    ) : (
+      <ul class="blog-list">
+        {posts.map((post) => (
+          <li class="card blog-card">
+            <a href={`/blog/${post.id}/`}>
+              <span class="caption">{post.data.category} · {fmt(post.data.date)}</span>
+              <h2>{post.data.title}</h2>
+              <p>{post.data.description}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+</Layout>
+
+<style>
+  .blog-index .section-header { max-width: 820px; }
+  .blog-empty { margin-top: 2rem; opacity: 0.7; }
+  .blog-list { list-style: none; padding: 0; margin: 3rem 0 0; display: grid; gap: 1.25rem; max-width: 820px; }
+  .blog-card a { display: block; text-decoration: none; color: inherit; }
+  .blog-card h2 { margin: 0.5rem 0 0.5rem; font-size: 1.5rem; line-height: 1.2; }
+  .blog-card p { margin: 0; opacity: 0.75; line-height: 1.5; }
+  .blog-card:hover h2 { text-decoration: underline; }
+</style>
