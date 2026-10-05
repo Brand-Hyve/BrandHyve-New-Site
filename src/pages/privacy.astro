@@ -1,0 +1,86 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const effective = 'October 4, 2026';
+---
+
+<Layout
+  title="Privacy Policy | Brand Hyve"
+  description="How Brand Hyve collects, uses, and protects information on brandhyve.com, including our consent-first approach to analytics cookies."
+>
+  <div class="glow-glow" style="top: 12%; left: 8%;"></div>
+
+  <section class="section-padding privacy">
+    <header class="section-header">
+      <span class="caption">Legal</span>
+      <h1 class="display-xl">Privacy Policy</h1>
+      <p class="body-lg">Effective {effective}. This page explains what we collect on brandhyve.com, why, and the choices you have.</p>
+    </header>
+
+    <div class="privacy-body">
+      <h2>Who we are</h2>
+      <p>Brand Hyve is a marketing agency based in the Greater Tampa Bay Area, Florida. We run Local SEO and build websites for local service businesses. You can reach us at <a href="mailto:Info@brandhyve.com">Info@brandhyve.com</a> or <a href="tel:+18133080543">(813) 308-0543</a>.</p>
+
+      <h2>Information you give us</h2>
+      <p>When you fill out a form on this site, we receive what you type: typically your name, business name, email address, phone number, and your message. Form submissions are delivered to our customer relationship management system (HighLevel) so our team can respond. We use this information to answer your enquiry, schedule a call, and follow up about our services. We do not sell it.</p>
+      <p>The "Send Review Invite" demo on our homepage works the same way: the name and phone number you enter are sent to HighLevel, which sends a sample review-request text message to that number. Only use a number you own or have permission to message.</p>
+
+      <h2>Analytics cookies: nothing loads until you accept</h2>
+      <p>We use Google Analytics 4 to understand how visitors use this site, such as which pages are read and how people arrive here. We take a consent-first approach:</p>
+      <ul>
+        <li>No Google Analytics code is requested, and no analytics cookie is set, until you click <strong>Accept</strong> on the cookie banner.</li>
+        <li>If you click <strong>Decline</strong>, or make no choice, nothing analytics-related loads at all. Your visit is not reported to Google.</li>
+        <li>You can change your choice at any time using <strong>Cookie preferences</strong> in the footer. Declining later tells Google Analytics to stop sending anything further, and nothing loads on later visits.</li>
+      </ul>
+      <p>If you accept, Google Analytics sets cookies beginning with <code>_ga</code> to recognise repeat visits. The data Google receives includes your approximate location, device and browser type, and the pages you view. Google's handling of this data is described in <a href="https://policies.google.com/privacy" rel="noopener" target="_blank">Google's Privacy Policy</a> and <a href="https://policies.google.com/technologies/partner-sites" rel="noopener" target="_blank">How Google uses information from sites that use its services</a>.</p>
+      <p>We may in future enable the Meta Pixel for advertising measurement. If we do, it will be gated by the same consent banner and nothing from Meta will load before you accept.</p>
+
+      <h2>Cookies and local storage we set ourselves</h2>
+      <table>
+        <thead>
+          <tr><th>Name</th><th>Type</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>cookieConsent</code></td><td>Browser local storage</td><td>Remembers whether you accepted or declined analytics so we do not ask again. Contains only the word true or false.</td></tr>
+          <tr><td><code>_ga</code>, <code>_ga_*</code></td><td>Cookies set by Google Analytics</td><td>Set only after you accept. Distinguish visitors and sessions for aggregate reporting.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Hosting and server logs</h2>
+      <p>This site is hosted on Vercel. Like any web host, Vercel may record standard technical information when a page is served, such as IP address, request time, and browser type, for security and reliability. We do not use these logs to identify individual visitors.</p>
+
+      <h2>Links to other sites</h2>
+      <p>This site links to third-party services such as Google Business Profile, Facebook, Instagram, and LinkedIn. Their privacy practices are their own. Clicking an outbound link does not send them any data from this site beyond the normal referrer your browser provides.</p>
+
+      <h2>Your choices and rights</h2>
+      <ul>
+        <li>Use <strong>Cookie preferences</strong> in the footer to accept or decline analytics at any time.</li>
+        <li>Email <a href="mailto:Info@brandhyve.com">Info@brandhyve.com</a> to ask what information we hold about you from a form submission, to correct it, or to have it deleted.</li>
+        <li>You can also block or clear cookies in your browser settings. The site works without them.</li>
+      </ul>
+
+      <h2>Children</h2>
+      <p>This site is for business owners and is not directed at children under 13. We do not knowingly collect information from children.</p>
+
+      <h2>Changes to this policy</h2>
+      <p>If we change what we collect or how analytics is loaded, we will update this page and the effective date above.</p>
+
+      <h2>Contact</h2>
+      <p>Questions about this policy: <a href="mailto:Info@brandhyve.com">Info@brandhyve.com</a> or <a href="tel:+18133080543">(813) 308-0543</a>.</p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .privacy .section-header { max-width: 820px; }
+  .privacy-body { max-width: 760px; margin: 3rem 0 0; font-size: 1.0625rem; line-height: 1.7; color: var(--ink-muted); }
+  .privacy-body h2 { font-size: 1.5rem; line-height: 1.2; margin: 2.5rem 0 0.75rem; color: var(--ink); }
+  .privacy-body p { margin: 0 0 1rem; }
+  .privacy-body ul { margin: 0 0 1.25rem 1.25rem; }
+  .privacy-body li { margin-bottom: 0.5rem; }
+  .privacy-body a { color: var(--accent-yellow); text-decoration: underline; }
+  .privacy-body code { font-size: 0.9em; background: var(--surface-2); padding: 0.1em 0.4em; border-radius: var(--rounded-xs); }
+  .privacy-body table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 0.95rem; }
+  .privacy-body th, .privacy-body td { text-align: left; padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  .privacy-body th { color: var(--ink); }
+</style>

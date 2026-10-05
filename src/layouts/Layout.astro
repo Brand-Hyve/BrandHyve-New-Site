@@ -16,8 +16,9 @@ const {
 	ogImage = '/og-home.jpg'
 } = Astro.props;
 
-const gaTrackingId = import.meta.env.PUBLIC_GA_TRACKING_ID || 'G-TRACKINGID';
-const fbPixelId = import.meta.env.PUBLIC_FB_PIXEL_ID || 'PIXEL-ID-PLACEHOLDER';
+// Analytics ids come from Vercel env vars. Empty = not configured = nothing ever loads.
+const gaTrackingId = import.meta.env.PUBLIC_GA_TRACKING_ID || '';
+const fbPixelId = import.meta.env.PUBLIC_FB_PIXEL_ID || '';
 ---
 
 <!doctype html>
@@ -26,10 +27,6 @@ const fbPixelId = import.meta.env.PUBLIC_FB_PIXEL_ID || 'PIXEL-ID-PLACEHOLDER';
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		
-		<!-- Preconnect Links -->
-		<link rel="preconnect" href="https://www.googletagmanager.com" />
-		<link rel="preconnect" href="https://connect.facebook.net" />
-
 		<!-- SEO Meta Tags -->
 		<title>{title}</title>
 		<meta name="description" content={description} />
@@ -57,31 +54,60 @@ const fbPixelId = import.meta.env.PUBLIC_FB_PIXEL_ID || 'PIXEL-ID-PLACEHOLDER';
 		<!-- Astro View Transitions -->
 		<ClientRouter />
 		
-		<!-- Google Analytics (GA4) Tracking -->
-		<script async src={`https://www.googletagmanager.com/gtag/js?id=${gaTrackingId}`} is:inline></script>
-		<script is:inline define:vars={{ gaTrackingId }}>
-			window.dataLayer = window.dataLayer || [];
-			function gtag(){dataLayer.push(arguments);}
-			gtag('js', new Date());
-			gtag('config', gaTrackingId);
+		<!-- Analytics: loader-gated. No Google or Meta request is made until the visitor clicks Accept.
+		     Standard: Brand Hyve analytics consent standard (loader gating). Decline loads nothing. -->
+		<script is:inline define:vars={{ gaTrackingId, fbPixelId }}>
+			(function () {
+				if (window.__bhConsentInit) return;
+				window.__bhConsentInit = true;
+				var KEY = 'cookieConsent';
+				function read() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+				function write(v) { try { if (v === null) localStorage.removeItem(KEY); else localStorage.setItem(KEY, v); } catch (e) {} }
+				window.__loadAnalytics = function () {
+					if (window.__analyticsLoaded) return;
+					window.__analyticsLoaded = true;
+					if (gaTrackingId) {
+						// Standard gtag snippet. GA4 sends the first page_view itself on load and,
+						// with enhanced measurement (default on), one per client-side navigation.
+						window.dataLayer = window.dataLayer || [];
+						window.gtag = function () { window.dataLayer.push(arguments); };
+						window.gtag('js', new Date());
+						window.gtag('config', gaTrackingId);
+						var s = document.createElement('script');
+						s.async = true;
+						s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(gaTrackingId);
+						document.head.appendChild(s);
+					}
+					if (fbPixelId) {
+						!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+						window.fbq('init', fbPixelId);
+						window.fbq('track', 'PageView');
+					}
+				};
+				function syncBanner() {
+					var b = document.getElementById('cookie-banner');
+					if (b) b.hidden = read() !== null;
+				}
+				document.addEventListener('click', function (e) {
+					var t = e.target && e.target.closest ? e.target.closest('[data-consent]') : null;
+					if (!t) return;
+					var v = t.getAttribute('data-consent');
+					if (v === 'reopen') { var b = document.getElementById('cookie-banner'); if (b) b.hidden = false; return; }
+					write(v);
+					syncBanner();
+					if (v === 'true') {
+						if (gaTrackingId) window['ga-disable-' + gaTrackingId] = false;
+						window.__loadAnalytics();
+					} else if (gaTrackingId && window.__analyticsLoaded) {
+						// Already loaded this document (accepted earlier): tell gtag to stop sending immediately.
+						window['ga-disable-' + gaTrackingId] = true;
+					}
+				});
+				// Re-sync the banner after every Astro view-transition body swap (and on first load).
+				document.addEventListener('astro:page-load', syncBanner);
+				if (read() === 'true') window.__loadAnalytics();
+			})();
 		</script>
-
-		<!-- Facebook Pixel Code -->
-		<script is:inline define:vars={{ fbPixelId }}>
-			!function(f,b,e,v,n,t,s)
-			{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-			n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-			if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-			n.queue=[];t=b.createElement(e);t.async=!0;
-			t.src=v;s=b.getElementsByTagName(e)[0];
-			s.parentNode.insertBefore(t,s)}(window, document,'script',
-			'https://connect.facebook.net/en_US/fbevents.js');
-			fbq('init', fbPixelId);
-			fbq('track', 'PageView');
-		</script>
-		<noscript>
-			<img height="1" width="1" style="display:none" alt="fb-pixel" src={`https://www.facebook.com/tr?id=${fbPixelId}&ev=PageView&noscript=1`} />
-		</noscript>
 
 		<!-- JSON-LD Structured Data Schema -->
 		<!-- Identity Schema (Organization) -->
@@ -266,6 +292,7 @@ const fbPixelId = import.meta.env.PUBLIC_FB_PIXEL_ID || 'PIXEL-ID-PLACEHOLDER';
 					<a href="/about">About Us</a>
 					<a href="/about#faq">FAQ</a>
 					<a href="/contact">Contact Us</a>
+					<a href="/privacy">Privacy Policy</a>
 				</div>
 				<div class="footer-links-col">
 					<h4>Associations</h4>
@@ -281,12 +308,87 @@ const fbPixelId = import.meta.env.PUBLIC_FB_PIXEL_ID || 'PIXEL-ID-PLACEHOLDER';
 			</div>
 			<div class="footer-bottom">
 				<p>&copy; Copyright 2026. Brand Hyve. All Rights Reserved.</p>
+				<p class="footer-legal">
+					<a href="/privacy">Privacy Policy</a>
+					<button type="button" class="footer-legal-btn" data-consent="reopen">Cookie preferences</button>
+				</p>
 			</div>
 		</footer>
+
+		<!-- Cookie consent banner. Hidden until the script confirms no choice is stored. -->
+		<div id="cookie-banner" class="cookie-banner" role="region" aria-label="Cookie consent" hidden>
+			<p class="cookie-text">
+				We would like to use Google Analytics cookies to understand how visitors use this site.
+				Nothing analytics-related loads until you accept, and you can change your mind any time from the footer.
+				<a href="/privacy">Privacy Policy</a>
+			</p>
+			<div class="cookie-actions">
+				<button type="button" class="btn-secondary" data-consent="false">Decline</button>
+				<button type="button" class="btn-primary" data-consent="true">Accept</button>
+			</div>
+		</div>
 	</body>
 </html>
 
 <style>
+	.cookie-banner {
+		position: fixed;
+		left: 16px;
+		right: 16px;
+		bottom: 16px;
+		z-index: 1000;
+		max-width: 720px;
+		margin: 0 auto;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		padding: 18px 20px;
+		background: var(--surface-2);
+		border: 1px solid var(--hairline);
+		border-radius: var(--rounded-lg);
+		box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.8);
+	}
+	.cookie-banner[hidden] {
+		display: none;
+	}
+	.cookie-text {
+		flex: 1 1 320px;
+		margin: 0;
+		font-size: 14px;
+		line-height: 1.5;
+		color: var(--ink-muted);
+	}
+	.cookie-text a {
+		color: var(--accent-yellow);
+		text-decoration: underline;
+	}
+	.cookie-actions {
+		display: flex;
+		gap: 10px;
+		flex: 0 0 auto;
+	}
+	.footer-legal {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+	}
+	.footer-legal a,
+	.footer-legal-btn {
+		font-size: 13px;
+		color: var(--ink-muted);
+		background: none;
+		border: 0;
+		padding: 0;
+		cursor: pointer;
+		font-family: var(--font-body);
+		transition: color 0.2s ease;
+	}
+	.footer-legal a:hover,
+	.footer-legal-btn:hover {
+		color: var(--accent-yellow);
+	}
 	.logo-link {
 		display: flex;
 		align-items: center;
